@@ -3,15 +3,24 @@ const express = require('express');
 const usersModel = require('./users-model');
 const postsModel = require('../posts/posts-model');
 // The middleware functions also need to be required
-
+const { logger, validateUserId, validateUser, validatePost } = require('../middleware/middleware')
 
 const router = express.Router();
+router.use(logger);
 
-router.get('/', (req, res) => {
+router.get('/',  (req, res) => {
   // RETURN AN ARRAY WITH ALL THE USERS
+  usersModel.get()
+  .then(result => {
+    res.status(200).json(result);
+  })
+  .catch(result => {
+    res.status(500).json({ message: "Error retrieving results" })
+  })
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res) => {
+    res.json(req.user);
   // RETURN THE USER OBJECT
   // this needs a middleware to verify user id
 });
