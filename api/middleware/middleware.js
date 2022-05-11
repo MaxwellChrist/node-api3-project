@@ -30,8 +30,8 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
   const text = req.body.text;
-  if (!text) {
-    res.status(400).json({message: "missing required name field" });
+  if (typeof text != 'string' || text == "") {
+    res.status(400).json({message: "missing required text field" });
   } else {
     next();
   }
